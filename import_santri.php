@@ -54,6 +54,10 @@
 
             $isAvailable = $mysqli->query("SELECT * FROM tbl_santri WHERE nis = '$nis'") or die($mysqli->error);
             if($isAvailable->num_rows){
+                echo '<script type="text/javascript">';
+                echo 'confirm("Ada NIS yang sama, apakah Anda ingin mengubahnya?");';
+                echo '</script>';
+
                 $mysqli->query("UPDATE tbl_santri SET nama_lengkap='$namaLengkap', nis='$nis', tempat_lahir='$tempatLahir', tanggal_lahir='$tanggalLahir', gender='$gender', 
                 alamat='$alamat', nama_ortu='$namaOrtu', no_hp_ortu='$noHPortu', hafalan_terakhir='$hafalanTerakhir', juz_hafal='$juzHafal' WHERE nis='$nis'") or die($mysqli->error);
             } else {
