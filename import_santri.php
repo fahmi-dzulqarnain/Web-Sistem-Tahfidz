@@ -41,20 +41,29 @@
 
         $sheetData = $spreadsheet->getActiveSheet()->toArray();
         for ($i = 1; $i < count($sheetData); $i++) {
-            $nama = $sheetData[$i]['1'];
+            $nama = str_replace("'", "\'", $sheetData[$i]['1']);
             $nis = $sheetData[$i]['2'];
             $tempatLahir = $sheetData[$i]['3'];
             $tanggalLahir = $sheetData[$i]['4'];
             $gender = $sheetData[$i]['5'];
             $alamat = $sheetData[$i]['6'];
-            $namaOrtu = $sheetData[$i]['7'];
+            $namaOrtu = str_replace("'", "\'", $sheetData[$i]['7']);
             $noHPortu = $sheetData[$i]['8'];
             $hafalanTerakhir = $sheetData[$i]['9'];
             $juzHafal = $sheetData[$i]['10'];
-            $mysqli->query("INSERT INTO tbl_santri (nama_lengkap, nis, tempat_lahir, tanggal_lahir, gender, alamat, nama_ortu, no_hp_ortu, hafalan_terakhir, juz_hafal) 
-                            VALUES ('$nama', '$nis', '$tempatLahir', '$tanggalLahir', '$gender', '$alamat', '$namaOrtu', '$noHPortu', '$hafalanTerakhir', '$juzHafal')") or die($mysqli->error);
+
+            $isAvailable = $mysqli->query("SELECT * FROM tbl_santri WHERE nis = '$nis'") or die($mysqli->error);
+            if($isAvailable->num_rows){
+                $mysqli->query("UPDATE tbl_santri SET nama_lengkap='$namaLengkap', nis='$nis', tempat_lahir='$tempatLahir', tanggal_lahir='$tanggalLahir', gender='$gender', 
+                alamat='$alamat', nama_ortu='$namaOrtu', no_hp_ortu='$noHPortu', hafalan_terakhir='$hafalanTerakhir', juz_hafal='$juzHafal' WHERE nis='$nis'") or die($mysqli->error);
+            } else {
+                $mysqli->query("INSERT INTO tbl_santri (nama_lengkap, nis, tempat_lahir, tanggal_lahir, gender, alamat, nama_ortu, no_hp_ortu, hafalan_terakhir, juz_hafal) 
+                                VALUES ('$nama', '$nis', '$tempatLahir', '$tanggalLahir', '$gender', '$alamat', '$namaOrtu', '$noHPortu', '$hafalanTerakhir', '$juzHafal')") or die($mysqli->error);
+            }    
         }
-        header("Location: import_santri.php");
+
+        header( "Location:atur_santri.php");
+        exit;
     }
     ?>
 
