@@ -50,6 +50,16 @@ $currentFile = $parts[count($parts) - 1];
                 </span>
             </a>
         </li>
+        <li class="sidebar-nav-item">
+            <a href="atur_record.php" class="sidebar-nav-link <?php if($currentFile=="atur_record.php"){?>active<?php }?>">
+                <div>
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <span>
+                    Record
+                </span>
+            </a>
+        </li>
     </ul>
 </div>
 </html>

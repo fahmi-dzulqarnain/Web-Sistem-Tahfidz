@@ -15,7 +15,7 @@ if(isset($_GET['delete'])){
 if(isset($_POST['btnSubmit'])){
   $idWebsite = 1;
 
-  $namaLengkap = $_POST['txtNamaLengkap'];
+  $namaLengkap = str_replace("'", "\'", $_POST['txtNamaLengkap']);
   $mapelDiampu = $_POST['txtMapelDiampu'];
   $hafalan = $_POST['txtHafalan'];
   $lulusan = $_POST['txtLulusan'];
@@ -23,6 +23,14 @@ if(isset($_POST['btnSubmit'])){
 
   $mysqli->query("INSERT INTO tbl_pengampu (nama_lengkap, mapel_diampu, hafalan, lulusan, no_hp)
                   VALUES ('$namaLengkap', '$mapelDiampu', '$hafalan', '$lulusan', '$noHP')") or die($mysqli->error);
+
+
+    $idUser = $mysqli->query("SELECT id FROM tbl_pengampu WHERE nama_lengkap = '$namaLengkap'")->fetch_assoc()['id'];
+    $pengguna = str_replace("'", "", str_replace(' ', '_', strtolower($namaLengkap)));
+    $password = md5($noHP.$hafalan);
+    $tipeAkun = 'user';
+    $mysqli->query("INSERT INTO tbl_akun (pengguna, sandi, tipe_akun, id_user)
+                    VALUES ('$pengguna', '$password', '$tipeAkun', '$idUser')") or die($mysqli->error);
 
   header( "Location:atur_pengampu.php");
   exit;

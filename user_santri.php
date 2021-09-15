@@ -29,7 +29,7 @@
     <div class="content-container">
         <?php
         $i = 1;
-        $data = $dataHalaqah->fetch_assoc()['array_id_santri'];
+        $data = $dataHalaqah['array_id_santri'];
         $santriArray = array();
         $santriArray = explode('|', $data);
         foreach ($santriArray as &$row) :

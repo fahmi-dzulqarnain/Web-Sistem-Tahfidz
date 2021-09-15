@@ -4,6 +4,8 @@ session_start();
 require("includes/config.php");
 $rowEdit = '';
 
+$surat = $mysqli->query("SELECT * FROM tbl_surat");
+
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
     $mysqli->query("DELETE FROM tbl_santri WHERE id = '$id'") or die($mysqli->error);
@@ -36,7 +38,7 @@ if (isset($_POST['btnSubmit'])) {
                 alamat='$alamat', nama_ortu='$namaOrtu', no_hp_ortu='$noHPortu', hafalan_terakhir='$hafalanTerakhir', juz_hafal='$juzHafal' WHERE nis='$nis'") or die($mysqli->error);
     } else {
         $mysqli->query("INSERT INTO tbl_santri (nama_lengkap, nis, tempat_lahir, tanggal_lahir, gender, alamat, nama_ortu, no_hp_ortu, hafalan_terakhir, juz_hafal) 
-                                VALUES ('$nama', '$nis', '$tempatLahir', '$tanggalLahir', '$gender', '$alamat', '$namaOrtu', '$noHPortu', '$hafalanTerakhir', '$juzHafal')") or die($mysqli->error);
+                                VALUES ('$namaLengkap', '$nis', '$tempatLahir', '$tanggalLahir', '$gender', '$alamat', '$namaOrtu', '$noHPortu', '$hafalanTerakhir', '$juzHafal')") or die($mysqli->error);
     }
 
     header("Location:atur_santri.php");
@@ -120,7 +122,7 @@ if (isset($_POST['btnEdit'])) {
                         <?php endif; ?>
                     </div>
                     <div class="card-content">
-                        <form enctype="multipart/form-data" action="atur_santri.php" method="post">
+                        <form id="santriForm" enctype="multipart/form-data" action="atur_santri.php" method="post">
                             <div class="row">
                                 <?php if ($rowEdit !== '') : ?>
                                     <input type="text" name="txtID" value="<?php echo $rowEdit['id']; ?>" hidden>
@@ -133,7 +135,17 @@ if (isset($_POST['btnEdit'])) {
                                 <input class="text-form col-half" type="text" name="txtAlamat" placeholder="Alamat..." value="<?php if ($rowEdit !== '') echo $rowEdit['alamat']; ?>">
                                 <input class="text-form col-half" type="text" name="txtNamaOrtu" placeholder="Nama Orang Tua..." value="<?php if ($rowEdit !== '') echo $rowEdit['nama_ortu']; ?>">
                                 <input class="text-form col-half" type="tel" name="txtHPortu" placeholder="No. HP Orang Tua..." value="<?php if ($rowEdit !== '') echo $rowEdit['no_hp_ortu']; ?>">
-                                <input class="text-form col-half" type="text" name="txtHafalanTerakhir" placeholder="Hafalan Terakhir..." value="<?php if ($rowEdit !== '') echo $rowEdit['hafalan_terakhir']; ?>">
+                                <!--<input class="text-form col-half" type="text" name="txtHafalanTerakhir" placeholder="Hafalan Terakhir..." value="<?php //if ($rowEdit !== '') echo $rowEdit['hafalan_terakhir']; ?>">-->
+                                <select id="cmbSurat" class="text-form col-half" name="txtHafalanTerakhir" form="santriForm">
+                                    <?php if ($rowEdit !== ''): ?>
+                                        <option selected><?php echo $rowEdit['hafalan_terakhir']; ?></option>
+                                    <?php else: ?>
+                                        <option value="" selected disabled hidden>Hafalan Terakhir...</option>
+                                    <?php endif; ?>
+                                    <?php while ($rows = $surat->fetch_assoc()) : ?>
+                                        <option><?php echo $rows['nama_surat']; ?></option>
+                                    <?php endwhile; ?>
+                                </select>
                                 <input class="text-form col-half" type="tel" name="txtJumlahJuz" placeholder="Jumlah Juz Hafal..." value="<?php if ($rowEdit !== '') echo $rowEdit['juz_hafal']; ?>">
 
                                 <button type="submit" class="custom-file-upload" style="padding-bottom:10px;" name="<?php if ($rowEdit !== '') : echo 'btnEdit';
