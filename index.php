@@ -7,15 +7,19 @@ if (isset($_GET['login'])){
     $username = $_POST['txtUsername'];
     $password = md5($_POST['txtPassWord']);
 
-    $result = $mysqli->query("SELECT * FROM tbl_akun WHERE pengguna = '$username' AND sandi = '$password'") or die($mysqli->error);
+    $statement = $mysqli->prepare("SELECT id, id_user, tipe_akun FROM tbl_akun WHERE pengguna = ? AND sandi = ?");
+    $statement->bind_param('ss', $username, $password);
+    $statement->execute();
+    $statement->store_result();
 
-    if($result->num_rows){
-        $row = $result->fetch_array();
+    if($statement->num_rows()){
+        $statement->bind_result($id, $idUser, $tipeAkun);
+        $statement->fetch();
 
-        $_SESSION['codeID'] = $row['id'];
-        $_SESSION['id_user'] = $row['id_user'];
+        $_SESSION['codeID'] = $id;
+        $_SESSION['id_user'] = $idUser;
 
-        if ($row['tipe_akun'] == "superadmin"){
+        if ($tipeAkun == "superadmin"){
             header("Location: admin_home.php");
         } else {
             header("Location: user_home.php");
@@ -36,7 +40,7 @@ if (isset($_GET['login'])){
   <head>
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=0, maximum-scale=1.0">
     <title>Masuk Web Tahfidz</title>
-    <link rel="stylesheet" type="text/css" href="style.css" >
+    <link rel="stylesheet" type="text/css" href="view/styles/style.css" >
   </head>
   <body class="center-content">
     <div>

@@ -1,5 +1,13 @@
 <?php
 
+if (isset($_GET['logout'])) {
+    session_destroy();
+    unset($_SESSION['codeID']);
+    echo '<script type="text/javascript">';
+    echo 'window.location.href = "index.php";';
+    echo '</script>';
+}  
+
 if (isset($_SESSION['codeID'])){
     require_once('includes/config.php');
     $pengampu = $mysqli->query("SELECT COUNT(*) as total FROM tbl_pengampu") or die($mysqli->error);
@@ -25,10 +33,6 @@ if (isset($_SESSION['codeID'])){
             <img src="images/PPIT.png" alt="Mid Admin" class="logo">
         </li>
     </ul>
-    <!-- <form class="navbar-search">
-        <input type="text" name="Search" class="navbar-search-input" placeholder="Apa Yang Anda Cari...">
-        <i class="fas fa-search"></i>
-    </form> -->
     <ul class="navbar-nav nav-right">
         <li class="nav-item">
             <div class="nav-link" href="#" onclick="changeTheme()">

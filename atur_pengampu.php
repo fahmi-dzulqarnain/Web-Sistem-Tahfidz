@@ -1,65 +1,3 @@
-<?php
-
-session_start();
-require("includes/config.php");
-$rowEdit = '';
-
-if(isset($_GET['delete'])){
-  $id = $_GET['delete'];
-  $mysqli->query("DELETE FROM tbl_pengampu WHERE id = '$id'") or die($mysqli->error);
-
-  header( "Location:atur_pengampu.php");
-  exit;
-}
-
-if(isset($_POST['btnSubmit'])){
-  $idWebsite = 1;
-
-  $namaLengkap = str_replace("'", "\'", $_POST['txtNamaLengkap']);
-  $mapelDiampu = $_POST['txtMapelDiampu'];
-  $hafalan = $_POST['txtHafalan'];
-  $lulusan = $_POST['txtLulusan'];
-  $noHP = $_POST['txtNoHP'];
-
-  $mysqli->query("INSERT INTO tbl_pengampu (nama_lengkap, mapel_diampu, hafalan, lulusan, no_hp)
-                  VALUES ('$namaLengkap', '$mapelDiampu', '$hafalan', '$lulusan', '$noHP')") or die($mysqli->error);
-
-
-    $idUser = $mysqli->query("SELECT id FROM tbl_pengampu WHERE nama_lengkap = '$namaLengkap'")->fetch_assoc()['id'];
-    $pengguna = str_replace("'", "", str_replace(' ', '_', strtolower($namaLengkap)));
-    $password = md5($noHP.$hafalan);
-    $tipeAkun = 'user';
-    $mysqli->query("INSERT INTO tbl_akun (pengguna, sandi, tipe_akun, id_user)
-                    VALUES ('$pengguna', '$password', '$tipeAkun', '$idUser')") or die($mysqli->error);
-
-  header( "Location:atur_pengampu.php");
-  exit;
-}
-
-if(isset($_GET['edit'])){
-  $id = $_GET['edit'];
-  $result = $mysqli->query("SELECT * FROM tbl_pengampu WHERE id = '$id'") or die($mysqli->error);
-  $rowEdit = $result->fetch_assoc();
-}
-
-if(isset($_POST['btnEdit'])){
-  $id = $_POST['txtID'];
-
-  $namaLengkap = $_POST['txtNamaLengkap'];
-  $mapelDiampu = $_POST['txtMapelDiampu'];
-  $hafalan = $_POST['txtHafalan'];
-  $lulusan = $_POST['txtLulusan'];
-  $noHP = $_POST['txtNoHP'];
-
-  $mysqli->query("UPDATE tbl_pengampu SET nama_lengkap='$namaLengkap', mapel_diampu='$mapelDiampu', hafalan='$hafalan',
-                  lulusan='$lulusan', no_hp='$noHP' WHERE id='$id'") or die($mysqli->error);
-
-  header( "Location:atur_pengampu.php");
-  exit;
-}
-
-?>
-
 <!DOCTYPE html>
 <html>
 
@@ -71,23 +9,37 @@ if(isset($_POST['btnEdit'])){
     <link rel="icon" type="image/png" href="assets/MidLogo-light.png">
 
     <!-- Import Library -->
-    <link rel="stylesheet" type="text/css" href="fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="libraries/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500&display=swap">
     <!-- End Import Library -->
 
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="view/styles/style.css">
+    <link rel="stylesheet" type="text/css" href="view/styles/chip.css">
 </head>
 
 <body class="overlay-scrollbar">
 
     <!-- Navbar -->
-    <?php include('includes/navbar.php'); 
-    $pengampu = $mysqli->query("SELECT * FROM tbl_pengampu");?>
-    <!-- End Navbar -->
+    <?php 
+    
+    session_start();
+    require("includes/config.php");
+    $rowEdit = '';
+    
+    include 'controller/pengampu/add_change.php';
+    include 'controller/pengampu/delete.php';
+    
+    if(isset($_GET['edit'])){
+      $id = $_GET['edit'];
+      $result = $mysqli->query("SELECT * FROM tbl_pengampu WHERE id = '$id'") or die($mysqli->error);
+      $rowEdit = $result->fetch_assoc();
+    }
 
-    <!-- Sidebar -->
-    <?php include('includes/sidebar.php'); ?>
-    <!-- End Sidebar -->
+    include('includes/navbar.php'); 
+    include('includes/sidebar.php');
+
+    $pengampu = $mysqli->query("SELECT * FROM tbl_pengampu");
+    ?>
 
     <!-- Main Content -->
     <div class="wrapper">
@@ -113,6 +65,12 @@ if(isset($_POST['btnEdit'])){
                                 <input class="text-form col-half" type="tel" name="txtHafalan" placeholder="Jumlah Hafalan..." value="<?php if ($rowEdit !== '') echo $rowEdit['hafalan']; ?>">
                                 <input class="text-form col-half" type="text" name="txtLulusan" placeholder="Lulusan..." value="<?php if ($rowEdit !== '') echo $rowEdit['lulusan']; ?>">
                                 <input class="text-form col-half" type="tel" name="txtNoHP" placeholder="No. HP..." value="<?php if ($rowEdit !== '') echo $rowEdit['no_hp']; ?>">
+                                <div class="flex-row">
+                                    <input type="radio" name="radioWalkel" class="hideopt" id="1" value="1">
+                                    <label class="chip" for="1">Wali Kelas</label>
+                                    <input type="radio" name="radioWalkel" class="hideopt" id="0" value="0">
+                                    <label class="chip" for="0">Bukan Wali Kelas</label>
+                                </div>
                                 <button type="submit" class="custom-file-upload" style="padding-bottom:10px;" name="<?php if ($rowEdit !== ''): echo 'btnEdit'; else: echo 'btnSubmit'; endif; ?>">
                                     <?php if ($rowEdit !== ''): ?>
                                       <i class="fas fa-edit"></i> Ubah Pengampu</button>

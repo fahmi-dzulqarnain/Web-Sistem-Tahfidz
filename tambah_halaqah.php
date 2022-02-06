@@ -122,11 +122,11 @@ if (isset($_GET['idHalaqah'])){
     <link rel="icon" type="image/png" href="assets/MidLogo-light.png">
 
     <!-- Import Library -->
-    <link rel="stylesheet" type="text/css" href="fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="libraries/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500&display=swap">
     <!-- End Import Library -->
 
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="view/styles/style.css">
 </head>
 
 <body class="overlay-scrollbar">
@@ -158,7 +158,7 @@ if (isset($_GET['idHalaqah'])){
                                 <input class="text-form col-biggest" type="text" name="txtNamaHalaqah" placeholder="Nama Halaqah..." value="<?php if ($id !== ''): echo $rowEdit['nama_halaqah']; endif;?>">
                                 <input class="text-form col-biggest" type="tel" name="txtTarget" placeholder="Target Bulanan..." value="<?php if ($id !== ''): echo $rowEdit['target_bulanan']; endif;?>">
                                 <label class="text-form col-bigger" for="cmbPengampu">Nama Pengampu :-</label>
-                                <select id="cars" class="text-form col-biggest" name="txtPengampu" form="halaqahForm">
+                                <select class="text-form col-biggest" name="txtPengampu" form="halaqahForm">
                                     <option value="" <?php if ($id == '') echo 'selected'?> disabled hidden>Pilih Nama Pengampu...</option>
                                     <?php while ($row = $pengampu->fetch_assoc()): ?>
                                         <option <?php if ($id !== '' && $row['id'] == $rowEdit['id_pengampu']): echo 'selected'; endif; ?>><?php 

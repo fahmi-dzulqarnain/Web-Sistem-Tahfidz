@@ -1,0 +1,11 @@
+.collapsible {
+    text-align: left;
+    cursor: pointer;
+}
+
+.collapsible-content {
+    overflow: hidden;
+    padding: 0;
+    max-height: 0px;
+    transition: max-height 0.5s ease-out;
+}

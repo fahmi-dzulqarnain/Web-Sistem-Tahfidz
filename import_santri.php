@@ -7,18 +7,18 @@
     <title>Import Excel Santri</title>
 
     <!-- Import Library -->
-    <link rel="stylesheet" type="text/css" href="fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="libraries/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500&display=swap">
     <!-- End Import Library -->
 
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="view/styles/style.css">
 </head>
 
 <body>
     <?php
     session_start();
     require("includes/config.php");
-    require 'iexcel/vendor/autoload.php';
+    require 'libraries/iexcel/vendor/autoload.php';
 
     if (isset($_GET['berhasil'])) {
         echo "<p>" . $_GET['berhasil'] . " Data berhasil di import.</p>";

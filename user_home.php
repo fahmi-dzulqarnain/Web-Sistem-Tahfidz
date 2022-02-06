@@ -7,11 +7,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <!-- Import Library -->
-    <link rel="stylesheet" type="text/css" href="fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="libraries/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500&display=swap">
     <!-- End Import Library -->
 
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="view/styles/style.css">
 
     <title>Beranda</title>
 </head>
@@ -82,12 +82,12 @@
                 <div class="col card" style="background: #fff;">
                     <div class="card-content">
                         <span class="top-right"><?php echo $row['tanggal']; ?></span>
-                        <h3>
+                        <h4>
                             <?php
                             $idSantri = $row['id_santri'];
-                            $namaSantri = $mysqli->query("SELECT * FROM tbl_santri WHERE id='$idSantri'");
+                            $namaSantri = $mysqli->query("SELECT nama_lengkap FROM tbl_santri WHERE id='$idSantri'");
                             echo $namaSantri->fetch_assoc()['nama_lengkap']; ?>
-                        </h3>
+                        </h4>
                         <span class="top-right"><?php echo ucfirst($row['tipe_setor']); ?></span>
                         <a href="?delete=<?php echo $row['id']; ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus Record Tahfidz ini?');" class="btn-icon bg-danger top-right" style="margin: 25px 0 0 0;"> <i class="fas fa-trash"></i> </a>
                         <p style="margin: 10px 0 10px 0;">
@@ -109,27 +109,8 @@
     <?php include('includes/bottommenu.php'); ?>
     <!-- End Bottommenu -->
 
-    <script>
-        const tabs = document.querySelectorAll('.tab')
-        const fab = document.querySelector('.fab')
-
-        tabs.forEach(clickedTab => {
-            clickedTab.addEventListener('click', () => {
-                tabs.forEach(tab => {
-                    tab.classList.remove('active')
-                })
-                clickedTab.classList.add('active')
-            })
-        })
-
-        function fabClick() {
-            if (fab.classList.contains('active')) {
-                fab.classList.remove('active')
-            } else {
-                fab.classList.add('active')
-            }
-        }
-    </script>
+    <script src="controller/scripts/bottomtab.js"></script>
+    <script src="controller/scripts/fab.js"></script>
     <script src="index.js"></script>
 </body>
 

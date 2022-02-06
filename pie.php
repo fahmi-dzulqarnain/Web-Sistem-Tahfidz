@@ -1,26 +1,14 @@
-<?php
-require_once('includes/config.php');
-$siswa = $mysqli->query("SELECT id, nama_lengkap FROM tbl_santri");
-?>
-
 <!DOCTYPE html>
 <html>
 
 <head>
   <meta charset="utf-8">
-  <title>Chartjs, PHP dan MySQL Demo Grafik Lingkaran</title>
-  <script src="chart/js/Chart.js"></script>
-  <style type="text/css">
-    .container {
-      width: 40%;
-      margin: 15px auto;
-    }
-  </style>
+  <script src="libraries/chart/js/Chart.js"></script>
 </head>
 
 <body>
 
-  <div style="position: relative; height:25vh; width:25vw">
+  <div style="height:100%; width:100%">
     <canvas id="piechart"></canvas>
   </div>
 
@@ -31,39 +19,17 @@ $siswa = $mysqli->query("SELECT id, nama_lengkap FROM tbl_santri");
 <script type="text/javascript">
   var ctx = document.getElementById("piechart").getContext("2d");
   <?php
-  $jumlah = array();
-  $santri = array();
-  //$month = array("01", "02", "03", "04", "05", "06");
-  while ($p = mysqli_fetch_array($siswa)) {
-    $idSiswa = $p['id'];
-    array_push($santri, $p['nama_lengkap']);
-    //$bulan = $month[$i];
-    $data = $mysqli->query("SELECT SUM(jumlah_baris) as jumlah FROM tbl_record WHERE id_santri = '$idSiswa'"); // AND tanggal LIKE '%/$bulan/%'");
-    $total = $data->fetch_assoc()['jumlah'];
-    array_push($jumlah, $total);
-    // for ($i = 0; $i < count($month); $i++){
-    //   $bulan = $month[$i];
-    //   $data = $mysqli->query("SELECT SUM(jumlah_baris) as jumlah FROM tbl_record WHERE id_santri = '$idSiswa' AND tanggal LIKE '%/$bulan/%'");
-    //   $total = $data->fetch_assoc()['jumlah'];
-    //   array_push($jumlah, $total);
-    // }
-  }
+  $jumlah = json_encode(array($countMencapai, $countTidak));
+  $pieLabel = json_encode(array('Mencapai Target', 'Tidak Mencapai Target'));
   ?>
   var data = {
-    labels: [<?php foreach ($santri as $p) {
-                echo '"' . $p . '",';
-              } ?>],
+    labels: <?php echo $pieLabel; ?>,
     datasets: [{
       label: "Pencapaian Tahfidz",
-      data: [<?php foreach ($jumlah as $p) {
-                echo '"' . $p . '",';
-              } ?>],
+      data: <?php echo $jumlah; ?>,
       backgroundColor: [
         '#29B0D0',
-        '#2A516E',
-        '#F07124',
-        '#CBE0E3',
-        '#979193'
+        '#2A516E'
       ]
     }]
   };
@@ -72,10 +38,42 @@ $siswa = $mysqli->query("SELECT id, nama_lengkap FROM tbl_santri");
     type: 'pie',
     data: data,
     options: {
-      // responsive: true,
+      responsive: true,
       legend: {
         display: true,
-        position: 'left'
+        position: 'bottom'
+      }
+    },
+    plugins: {
+      labels: {
+        // render 'label', 'value', 'percentage', 'image' or custom function, default is 'percentage'
+        render: 'value',
+        precision: 0,
+        showZero: true,
+        fontSize: 12,
+        fontColor: '#fff',
+        fontStyle: 'normal',
+        fontFamily: "'Quicksand', 'Helvetica', 'Arial', sans-serif",
+
+        // draw label in arc, default is false
+        // bar chart ignores this
+        arc: true,
+
+        // position to draw label, available value is 'default', 'border' and 'outside'
+        // bar chart ignores this
+        // default is 'default'
+        position: 'default',
+
+        // show the real calculated percentages from the values and don't apply the additional logic to fit the percentages to 100 in total, default is false
+        showActualPercentages: true,
+
+        // add padding when position is `outside`
+        // default is 2
+        outsidePadding: 4,
+
+        // add margin of text when position is `outside` or `border`
+        // default is 2
+        textMargin: 4
       }
     }
   });

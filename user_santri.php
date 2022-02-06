@@ -7,11 +7,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <!-- Import Library -->
-    <link rel="stylesheet" type="text/css" href="fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="libraries/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500&display=swap">
     <!-- End Import Library -->
 
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="view/styles/style.css">
 
     <title>Data Santri</title>
 </head>
@@ -26,7 +26,7 @@
     <?php include('includes/bottommenu.php'); ?>
     <!-- End Bottommenu -->
 
-    <div class="content-container">
+    <div class="content-container wrapper">
         <?php
         $i = 1;
         $data = $dataHalaqah['array_id_santri'];
@@ -38,7 +38,7 @@
                 $dataSantri = $getNamaSantri->fetch_assoc(); ?>
                 <div class="row">
                     <div class="col">
-                        <div class="card-santri">
+                        <div class="card padding">
                             <h4><?php echo $dataSantri['nama_lengkap'];?></h4>
                             <p>TTL : <?php echo $dataSantri['tempat_lahir'].', '.$dataSantri['tanggal_lahir'];?></p>
                             <p>Wali : <?php echo $dataSantri['nama_ortu'].' ('.$dataSantri['no_hp_ortu'].')';?></p>
@@ -51,19 +51,7 @@
         endforeach; ?>
     </div>
 
-    <script>
-        const tabs = document.querySelectorAll('.tab')
-        const fab = document.querySelector('.fab')
-
-        tabs.forEach(clickedTab => {
-            clickedTab.addEventListener('click', () => {
-                tabs.forEach(tab => {
-                    tab.classList.remove('active')
-                })
-                clickedTab.classList.add('active')
-            })
-        })
-    </script>
+    <script src="controller/scripts/bottomtab.js"></script>
     <script src="index.js"></script>
 </body>
 

@@ -27,7 +27,7 @@ if (isset($_SESSION['codeID'])) {
 <div class="top-container">
   <div class="nav-container">
     <img class="img-logo" style="height: 65px;" src="images/LOGO_SWTQIS.png" alt="">
-    <h3>Tahfidz SWTQIS</h3>
+    <h3 class="title">Tahfidz SWTQIS</h3>
     <img style="height: 55px; margin-top: 10px;" class="img-logo" src="images/PPIT.png" alt="">
   </div>
 </div>

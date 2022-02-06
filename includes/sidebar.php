@@ -5,6 +5,8 @@ $currentFile = $_SERVER["SCRIPT_NAME"];
 $parts = Explode('/', $currentFile);
 $currentFile = $parts[count($parts) - 1];
 
+include('config.php');
+
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -31,7 +33,7 @@ $currentFile = $parts[count($parts) - 1];
             </a>
         </li>
         <li class="sidebar-nav-item">
-            <a href="atur_santri.php" class="sidebar-nav-link <?php if($currentFile=="atur_santri.php"){?>active<?php }?>">
+            <a href="atur_santri.php" class="sidebar-nav-link <?php if($currentFile=="atur_santri.php" || $currentFile=="import_santri.php"){?>active<?php }?>">
                 <div>
                     <i class="fas fa-user-graduate"></i>
                 </div>
@@ -57,6 +59,26 @@ $currentFile = $parts[count($parts) - 1];
                 </div>
                 <span>
                     Record
+                </span>
+            </a>
+        </li>
+        <li class="sidebar-nav-item">
+            <a href="atur_kehadiran.php" class="sidebar-nav-link <?php if($currentFile=="atur_kehadiran.php"){?>active<?php }?>">
+                <div>
+                    <i class="fas fa-tasks"></i>
+                </div>
+                <span>
+                    Kehadiran
+                </span>
+            </a>
+        </li>
+        <li class="sidebar-nav-item">
+            <a href="atur_laporan.php" class="sidebar-nav-link <?php if($currentFile=="atur_laporan.php"){?>active<?php }?>">
+                <div>
+                    <i class="fas fa-chart-pie"></i>
+                </div>
+                <span>
+                    Laporan
                 </span>
             </a>
         </li>

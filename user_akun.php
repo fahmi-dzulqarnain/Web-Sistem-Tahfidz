@@ -7,24 +7,21 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <!-- Import Library -->
-    <link rel="stylesheet" type="text/css" href="fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="libraries/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500&display=swap">
     <!-- End Import Library -->
 
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="view/styles/style.css">
 
     <title>Akun</title>
 </head>
 
 <body class="user_home">
 
-    <!-- Headerbar -->
-    <?php include('includes/headerbar.php'); ?>
-    <!-- End Headerbar -->
-
-    <!-- Bottommenu -->
-    <?php include('includes/bottommenu.php'); ?>
-    <!-- End Bottommenu -->
+    <?php 
+    include('includes/headerbar.php'); 
+    include('includes/bottommenu.php');
+    ?>
 
     <?php
     $id = $_SESSION['codeID'];
@@ -57,27 +54,7 @@
         </a>
     </div>
 
-    <script>
-        const tabs = document.querySelectorAll('.tab')
-        const fab = document.querySelector('.fab')
-
-        tabs.forEach(clickedTab => {
-            clickedTab.addEventListener('click', () => {
-                tabs.forEach(tab => {
-                    tab.classList.remove('active')
-                })
-                clickedTab.classList.add('active')
-            })
-        })
-
-        function fabClick() {
-            if (fab.classList.contains('active')) {
-                fab.classList.remove('active')
-            } else {
-                fab.classList.add('active')
-            }
-        }
-    </script>
+    <script src="controller/scripts/bottomtab.js"></script>
     <script src="index.js"></script>
 </body>
 
